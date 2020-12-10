@@ -49,6 +49,13 @@ def clean_db():
         cursor.execute("DELETE FROM books")
 
 
+def drop_db():
+    with DbConn('sqlite3_database.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("DROP TABLE books")
+        create_books_table()
+
+
 def delete_book(book_name):
     with DbConn('sqlite3_database.db') as conn:
         cursor = conn.cursor()

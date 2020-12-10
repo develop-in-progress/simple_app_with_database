@@ -6,6 +6,7 @@ note = """Select mode:
         -a: add book
         -c: change read status (any int except 0 -> mark as read)
         -l: list of book in db
+        -w: drop table
         -d: delete book \n ------>:"""
 
 
@@ -30,6 +31,8 @@ def main():
             delete_book(name)
         elif user_input == 'l':
             print(return_books_list())
+        elif user_input == 'w':
+            drop_db()
         else:
             print('Enter valid query')
         user_input = input(note)
