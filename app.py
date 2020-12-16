@@ -43,6 +43,8 @@ def main():
         elif user_input == 't':
             name = input('Enter books name : ')
             print(show_reading_time(name))
+        elif user_input == 'generate':
+            create_a_lot_of_books()
         else:
             print('Enter valid query')
         user_input = input(note)

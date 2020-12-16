@@ -1,6 +1,8 @@
 import sqlite3
 from resourses.db_connection_manager import DbConn
 from datetime import datetime
+import random
+from string import printable
 
 # conn = sqlite3.connect(':memory:')
 
@@ -123,6 +125,25 @@ def return_time():
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM reading")
 
+
+def create_a_lot_of_books():
+
+    # author, book_name = [i for i in range(100000)]
+    with DbConn('sqlite3_database.db') as conn:
+        cursor = conn.cursor()
+
+        try:
+            for i in range(100):
+                author = printable[random.randint(1, 44):random.randint(40, 99)]
+                book_name = printable[random.randint(1, 44):random.randint(40, 99)]
+                cursor.execute("INSERT INTO books (name, author, read_status) VALUES (:name, :author, :read_status)",
+                           {"author": author, "name": book_name, "read_status": 0})
+                cursor.execute("INSERT INTO reading (reading_time, name) VALUES (:reading_time, :name)",
+                           {"reading_time": datetime.now(), "name": book_name})
+                cursor.execute("INSERT INTO cross_books (name, read_date) VALUES (:name, :read_date)",
+                           {"read_date": datetime.now(), "name": book_name})
+        except sqlite3.IntegrityError:
+            print("Cant add book, books name should be unique: ", book_name)
 
 # with DbConn('sqlite3_database.db') as conn:
 #     cursor = conn.cursor()
